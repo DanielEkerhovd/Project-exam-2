@@ -19,7 +19,7 @@ jobs:
           node-version: 'latest'
 
       - name: Set environment variable for secret
-        run: echo "VITE_MY_SECRET=${{ secrets.MY_SECRET }}" >> $GITHUB_ENV
+        run: echo "VITE_MY_SECRET=${{ secrets.VITE_MY_SECRET }}" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: npm install
