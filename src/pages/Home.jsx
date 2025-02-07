@@ -11,7 +11,6 @@ export function Home() {
 
   return (
     <>
-      <h1>Home</h1>
       <div className="w-11/12 max-w-screen-2xl mx-auto">
         {loading && <p>Loading...</p>}
         {error && <p>{error}</p>}

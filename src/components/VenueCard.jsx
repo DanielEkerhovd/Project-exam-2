@@ -8,11 +8,11 @@ export function VenueCard({ id, name, media, rating, meta, maxGuests, price }) {
   console.log(amenities);
 
   return (
-    <div className="bg-white rounded-lg">
+    <div className="bg-white rounded-md">
       {/* Hero */}
       <div className="relative h-[130px]">
         <img
-          className="w-full h-full object-cover rounded-t-lg"
+          className="w-full h-full object-cover rounded-t-md"
           src={imageUrl}
           alt=""
         />
