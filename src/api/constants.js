@@ -3,7 +3,7 @@ export const constants = {
   holidaze: {
     base: "/holidaze",
     bookings: "/bookings?_customer=true&_venue=true",
-    venues: "/venues?_bookings=true&_customer=true",
+    venues: "/venues?_bookings=true&_customer=true&sort=rating",
     profiles: "/profiles?_bookings=true&_venues=true",
   },
 };
