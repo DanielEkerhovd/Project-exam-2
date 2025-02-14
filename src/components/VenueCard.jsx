@@ -1,8 +1,8 @@
-import { NavLink } from "react-router-dom";
-import { getAmenities } from "../utils/getAmenities.mjs";
+import { NavLink } from 'react-router-dom';
+import { getAmenities } from '../utils/getAmenities.mjs';
 
 export function VenueCard({ id, name, media, rating, meta, maxGuests, price }) {
-  const imageUrl = media[0] ? media[0].url : "https://via.placeholder.com/300";
+  const imageUrl = media[0] ? media[0].url : 'https://via.placeholder.com/300';
   const amenities = getAmenities(meta);
 
   console.log(amenities);
@@ -17,7 +17,7 @@ export function VenueCard({ id, name, media, rating, meta, maxGuests, price }) {
           alt=""
         />
         <div className="absolute inline bottom-0 m-2 p-2 backdrop-blur-md bg-black bg-opacity-80 rounded-sm text-white">
-          <h2>{name}</h2>
+          {name.length < 32 ? name : name.substring(0, 28) + '...'}
         </div>
       </div>
       {/* Actions */}
@@ -31,8 +31,8 @@ export function VenueCard({ id, name, media, rating, meta, maxGuests, price }) {
                 key={i}
                 src={
                   rating > i
-                    ? "/assets/rating-good.png"
-                    : "/assets/rating-bad.png"
+                    ? '/assets/rating-good.png'
+                    : '/assets/rating-bad.png'
                 }
                 className="size-4"
               />

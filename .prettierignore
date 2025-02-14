@@ -1,1 +1,2 @@
-tailwind.config.jss
+tailwind.config.js
+eslint.config.js
