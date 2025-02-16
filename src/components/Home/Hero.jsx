@@ -2,8 +2,8 @@ import { NavLink } from 'react-router-dom';
 
 export function Hero() {
   return (
-    <section className="relative flex items-center justify-center flex-col text-white z-20 rounded-sm heroBg w-full p-6 sm:p-16">
-      <div className="bg-holidaze-dark p-5 sm:p-10 z-10 flex justify-center items-center w-full">
+    <section className="relative flex items-center justify-center flex-col text-white z-20 rounded-sm heroBg w-full p-3 sm:p-6">
+      <div className="bg-holidaze-dark p-10 sm:p-24 z-10 flex justify-center items-center w-full max-w-[800px]">
         <div className="flex flex-col justify-center gap-5">
           <div>
             <h1 className="text-xl sm:text-3xl font-bold">

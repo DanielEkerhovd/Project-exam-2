@@ -1,17 +1,20 @@
-import { constants } from "../api/constants";
-import { useGetAPI } from "../api/apiCalls";
+import { constants } from '../api/constants';
+import { useGetAPI } from '../api/apiCalls';
 
-import { VenueCard } from "../components/VenueCard";
+import { VenueCard } from '../components/VenueCard';
+import { Filters } from '../components/Venues/Filters';
 
 export function Venues() {
   const url =
-    constants.base + constants.holidaze.base + constants.holidaze.venues;
+    constants.base + constants.holidaze.base + constants.holidaze.venues.rating;
 
   const { data, error, loading } = useGetAPI(url);
 
   return (
     <>
-      <div className="w-11/12 max-w-screen-2xl mx-auto">
+      <section className="w-11/12 max-w-screen-2xl mx-auto flex flex-col gap-5">
+        <h1 className="text-2xl font-bold mt-5">Venues</h1>
+        <Filters />
         {loading && <p>Loading...</p>}
         {error && <p>{error}</p>}
         {data && (
@@ -21,7 +24,7 @@ export function Venues() {
             ))}
           </ul>
         )}
-      </div>
+      </section>
     </>
   );
 }
