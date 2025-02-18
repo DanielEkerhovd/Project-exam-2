@@ -9,7 +9,6 @@ export function Header() {
 
   // Check if the user is on login or register page
   useEffect(() => {
-    console.log(window.location.pathname);
     if (location.pathname === '/login' || location.pathname === '/register') {
       setSearchOpen(false);
     } else {

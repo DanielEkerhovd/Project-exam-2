@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
@@ -12,7 +12,7 @@ export function useGetAPI(endpoint) {
       try {
         const response = await fetch(endpoint, {
           headers: {
-            "X-Noroff-API-KEY": API_KEY,
+            'X-Noroff-API-KEY': API_KEY,
           },
         });
 
@@ -37,44 +37,48 @@ export function useGetAPI(endpoint) {
   return { data, error, loading };
 }
 
-export function usePostAPI(endpoint, body, token) {
+export function usePostAPI() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    async function postData() {
-      try {
-        const response = await fetch(endpoint, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
-            "X-Noroff-API-KEY": API_KEY,
-          },
-          body: JSON.stringify(body),
-        });
+  const postData = async (endpoint, body, token = 'auth') => {
+    setLoading(true);
+    setError(null);
 
-        if (response.ok) {
-          const json = await response.json();
-          setData(json);
-        } else {
-          setError(`Error: ${response.status} - ${response.statusText}`);
+    try {
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+
+      if (token !== 'auth') {
+        headers.Authorization = `Bearer ${token}`;
+        if (typeof API_KEY !== 'undefined') {
+          headers['X-Noroff-API-KEY'] = API_KEY;
         }
-      } catch (error) {
-        setError(`Error: ${error.message}`);
-      } finally {
-        setLoading(false);
       }
-    }
 
-    if (endpoint) {
-      postData();
-    }
-  }, [endpoint, body, token]);
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(body),
+      });
 
-  return { data, error, loading };
-};
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      }
+
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { data, error, loading, postData };
+}
 
 export function usePutAPI(endpoint, body, token) {
   const [data, setData] = useState(null);
@@ -85,11 +89,11 @@ export function usePutAPI(endpoint, body, token) {
     async function putData() {
       try {
         const response = await fetch(endpoint, {
-          method: "PUT",
+          method: 'PUT',
           headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
-            "X-Noroff-API-KEY": API_KEY,
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            'X-Noroff-API-KEY': API_KEY,
           },
           body: JSON.stringify(body),
         });
@@ -113,7 +117,7 @@ export function usePutAPI(endpoint, body, token) {
   }, [endpoint, body, token]);
 
   return { data, error, loading };
-};
+}
 
 export function useDeleteAPI(endpoint, token) {
   const [data, setData] = useState(null);
@@ -124,10 +128,10 @@ export function useDeleteAPI(endpoint, token) {
     async function deleteData() {
       try {
         const response = await fetch(endpoint, {
-          method: "DELETE",
+          method: 'DELETE',
           headers: {
-            "Authorization": `Bearer ${token}`,
-            "X-Noroff-API-KEY": API_KEY,
+            Authorization: `Bearer ${token}`,
+            'X-Noroff-API-KEY': API_KEY,
           },
         });
 
@@ -150,4 +154,4 @@ export function useDeleteAPI(endpoint, token) {
   }, [endpoint, token]);
 
   return { data, error, loading };
-};
+}

@@ -5,8 +5,6 @@ export function VenueCard({ id, name, media, rating, meta, maxGuests, price }) {
   const imageUrl = media[0] ? media[0].url : 'https://via.placeholder.com/300';
   const amenities = getAmenities(meta);
 
-  console.log(amenities);
-
   return (
     <div className="bg-white rounded-md">
       {/* Hero */}
