@@ -1,7 +1,7 @@
 export const constants = {
   base: 'https://v2.api.noroff.dev',
   auth: {
-    login: '/auth/login',
+    login: '/auth/login?_holidaze=true',
     register: '/auth/register',
   },
   holidaze: {

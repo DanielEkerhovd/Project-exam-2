@@ -25,7 +25,7 @@ export function Home() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full">
           {loading && <p>Loading...</p>}
-          {error && <p>{error}</p>}
+          {error && <p>Something went wrong, try reloading.</p>}
           {data && (
             <>
               {data.data.slice(0, maxVenues).map((venue) => (

@@ -1,10 +1,16 @@
 import { useState } from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { usePostAPI } from '../../api/apiCalls';
 import { constants } from '../../api/constants';
+
+import { setStorage } from '../../storage/localStorage';
 
 export function LoginForm() {
   const [activeError, setActiveError] = useState([]);
   const { data, error, loading, postData } = usePostAPI();
+  const navigate = useNavigate();
 
   const login = constants.base + constants.auth.login;
 
@@ -42,18 +48,16 @@ export function LoginForm() {
       return;
     }
 
-    // if (/\s/.test(formData.password)) {
-    //   setActiveError(['Password cannot contain spaces']);
-    //   return;
-    // }
-
-    // if (formData.password.length < 8) {
-    //   setActiveError(['Password must be at least 8 characters']);
-    //   return;
-    // }
-
     postData(login, formData);
   };
+
+  useEffect(() => {
+    if (data && data.data && data.data.accessToken) {
+      setStorage('accessToken', data.data.accessToken);
+      setStorage('user', JSON.stringify(data.data));
+      navigate('/');
+    }
+  }, [data, navigate]);
 
   return (
     <>
@@ -98,7 +102,6 @@ export function LoginForm() {
         >
           {loading ? 'Logging in...' : 'Login'}
         </button>
-        <p className="text-center text-sm">{JSON.stringify(data)}</p>
       </form>
     </>
   );

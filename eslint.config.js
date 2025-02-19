@@ -32,7 +32,7 @@ export default [
       
       // Override specific rule after merging the others
       "react/prop-types": "off", // Disable prop validation
-      "react/jsx-no-target-blank": "off",
+      "react-hooks/exhaustive-deps": "off", // Disable exhaustive-deps
       "react-refresh/only-export-components": [
         "warn",
         { allowConstantExport: true },

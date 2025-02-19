@@ -71,7 +71,8 @@ export function usePostAPI() {
       const json = await response.json();
       setData(json);
     } catch (error) {
-      setError(error.message);
+      console.error(error);
+      setError(true);
     } finally {
       setLoading(false);
     }
@@ -80,9 +81,53 @@ export function usePostAPI() {
   return { data, error, loading, postData };
 }
 
+export function useLogin() {
+  const [loginData, setData] = useState(null);
+  const [loginError, setError] = useState(false);
+  const [loginLoading, setLoading] = useState(false);
+
+  const login = async (endpoint, body, token = 'auth') => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+
+      if (token !== 'auth') {
+        headers.Authorization = `Bearer ${token}`;
+        if (typeof API_KEY !== 'undefined') {
+          headers['X-Noroff-API-KEY'] = API_KEY;
+        }
+      }
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      }
+
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      console.error(error);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { loginData, loginError, loginLoading, login };
+}
+
 export function usePutAPI(endpoint, body, token) {
   const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -120,8 +165,8 @@ export function usePutAPI(endpoint, body, token) {
 }
 
 export function useDeleteAPI(endpoint, token) {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
+  const [data, setData] = useState({});
+  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -142,7 +187,8 @@ export function useDeleteAPI(endpoint, token) {
           setError(`Error: ${response.status} - ${response.statusText}`);
         }
       } catch (error) {
-        setError(`Error: ${error.message}`);
+        console.log(error);
+        setError(true);
       } finally {
         setLoading(false);
       }
