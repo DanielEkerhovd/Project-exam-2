@@ -20,7 +20,11 @@ export function Header() {
   }, [isLoggedIn]);
 
   useEffect(() => {
-    if (location.pathname === '/login' || location.pathname === '/register') {
+    if (
+      location.pathname === '/login' ||
+      location.pathname === '/register' ||
+      location.pathname === '/profile'
+    ) {
       setSearchOpen(false);
     } else {
       setSearchOpen(true);
@@ -37,7 +41,7 @@ export function Header() {
 
   const logout = () => {
     setLoggedOut();
-    navigate('/');
+    navigate('/login');
   };
 
   return (

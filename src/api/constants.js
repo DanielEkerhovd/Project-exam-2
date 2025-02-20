@@ -6,12 +6,14 @@ export const constants = {
   },
   holidaze: {
     base: '/holidaze',
-    bookings: '/bookings?_customer=true&_venue=true',
+    bookings: '/bookings?_venue=true',
     venues: {
       rating: '/venues?_bookings=true&_customer=true&sort=rating',
       price: '/venues?_bookings=true&_customer=true&sort=price',
       new: '/venues?_bookings=true&_customer=true&sort=created',
+      admin: '/venues',
     },
-    profiles: '/profiles?_bookings=true&_venues=true',
+    profiles: '/profiles/',
+    profilesQuery: '?_bookings=true&_venues=true',
   },
 };

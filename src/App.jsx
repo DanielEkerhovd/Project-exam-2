@@ -14,6 +14,7 @@ import { getStorage } from './storage/localStorage';
 
 function App() {
   const { isLoggedIn, setLoginStatus } = useLoginStatus();
+  console.log(isLoggedIn);
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -36,13 +37,11 @@ function App() {
         <Route path="/venues" element={<Venues />} />
         <Route path="/venue/:id" element={<Venue />} />
 
-        {/* Protected Route */}
         <Route
           path="/profile"
           element={isLoggedIn ? <Profile /> : <Navigate to="/login" />}
         />
 
-        {/* Redirect logged-in users away from login/register */}
         <Route
           path="/login"
           element={!isLoggedIn ? <Login /> : <Navigate to="/" />}

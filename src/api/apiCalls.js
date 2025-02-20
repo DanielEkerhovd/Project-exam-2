@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-export function useGetAPI(endpoint) {
+export function useGetAPI(endpoint, token = 'Not needed') {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -10,11 +10,15 @@ export function useGetAPI(endpoint) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(endpoint, {
-          headers: {
-            'X-Noroff-API-KEY': API_KEY,
-          },
-        });
+        const headers = {
+          'X-Noroff-API-KEY': API_KEY,
+        };
+
+        if (token !== 'Not needed') {
+          headers.Authorization = `Bearer ${token}`;
+        }
+
+        const response = await fetch(endpoint, { headers });
 
         if (response.ok) {
           const json = await response.json();
