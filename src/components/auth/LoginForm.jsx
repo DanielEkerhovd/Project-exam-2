@@ -6,11 +6,13 @@ import { usePostAPI } from '../../api/apiCalls';
 import { constants } from '../../api/constants';
 
 import { setStorage } from '../../storage/localStorage';
+import { useLoginStatus } from '../../hooks/loginStatus';
 
 export function LoginForm() {
   const [activeError, setActiveError] = useState([]);
   const { data, error, loading, postData } = usePostAPI();
   const navigate = useNavigate();
+  const { setLoggedIn } = useLoginStatus();
 
   const login = constants.base + constants.auth.login;
 
@@ -52,9 +54,9 @@ export function LoginForm() {
   };
 
   useEffect(() => {
-    if (data && data.data && data.data.accessToken) {
-      setStorage('accessToken', data.data.accessToken);
+    if (data && data.data) {
       setStorage('user', JSON.stringify(data.data));
+      setLoggedIn();
       navigate('/');
     }
   }, [data, navigate]);

@@ -4,11 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import { constants } from '../../api/constants';
 import { setStorage } from '../../storage/localStorage';
 
+import { useLoginStatus } from '../../hooks/loginStatus';
+
 export function RegisterForm() {
   const [activeError, setActiveError] = useState([]);
   const { data, error, loading, postData } = usePostAPI();
   const { loginData, login } = useLogin();
   const navigate = useNavigate();
+
+  const { setLoggedIn } = useLoginStatus();
 
   const registerUrl = constants.base + constants.auth.register;
   const loginUrl = constants.base + constants.auth.login;
@@ -56,9 +60,9 @@ export function RegisterForm() {
   }, [data]);
 
   useEffect(() => {
-    if (loginData?.data?.accessToken) {
-      setStorage('accessToken', loginData.data.accessToken);
+    if (loginData?.data) {
       setStorage('user', JSON.stringify(loginData.data));
+      setLoggedIn();
       navigate('/');
     }
   }, [loginData, navigate]);
@@ -132,8 +136,6 @@ export function RegisterForm() {
       >
         {loading ? 'Registering...' : 'Register'}
       </button>
-      <div>{JSON.stringify(data)}</div>
-      <div>{JSON.stringify(loginData)}</div>
     </form>
   );
 }

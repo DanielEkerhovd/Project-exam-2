@@ -1,13 +1,24 @@
 import { useState, useEffect } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useLoginStatus } from '../hooks/loginStatus';
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
-  // Check if the user is on login or register page
+  const { isLoggedIn, setLoggedOut } = useLoginStatus();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  }, [isLoggedIn]);
+
   useEffect(() => {
     if (location.pathname === '/login' || location.pathname === '/register') {
       setSearchOpen(false);
@@ -23,6 +34,11 @@ export function Header() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const logout = () => {
+    setLoggedOut();
+    navigate('/');
+  };
 
   return (
     <div className="w-11/12 max-w-screen-2xl mx-auto flex flex-col md:flex-row items-center md:gap-4">
@@ -64,11 +80,14 @@ export function Header() {
       <nav className="hidden md:flex items-center gap-5 ml-auto">
         <NavLink to="/venues">Venues</NavLink>
         {loggedIn ? (
-          <NavLink to="/profile">
-            <div className="bg-holidaze-dark size-12 rounded-full text-white flex items-center justify-center">
-              P
-            </div>
-          </NavLink>
+          <>
+            <button onClick={logout}>Logout</button>
+            <NavLink to="/profile">
+              <div className="bg-holidaze-dark size-12 rounded-full text-white flex items-center justify-center">
+                P
+              </div>
+            </NavLink>
+          </>
         ) : (
           <NavLink
             to="/login"
@@ -109,7 +128,7 @@ export function Header() {
           {loggedIn ? (
             <button
               onClick={() => {
-                setLoggedIn(false);
+                setLoggedOut();
                 setMenuOpen(false);
               }}
             >

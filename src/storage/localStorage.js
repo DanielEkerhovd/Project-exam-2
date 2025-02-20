@@ -2,11 +2,12 @@ export function setStorage(name, value) {
   localStorage.setItem(name, value);
 }
 
-export function getToken(name) {
-  return localStorage.getItem(name);
-}
+export const getStorage = (key) => {
+  const data = localStorage.getItem(key);
+  return data;
+};
 
-export function removeToken(name) {
+export function removeStorage(name) {
   localStorage.removeItem(name);
 }
 
