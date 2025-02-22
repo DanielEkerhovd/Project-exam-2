@@ -12,6 +12,7 @@ export const constants = {
       price: '/venues?_bookings=true&_customer=true&sort=price',
       new: '/venues?_bookings=true&_customer=true&sort=created',
       clear: '/venues',
+      bookings: '?_bookings=true',
     },
     profiles: '/profiles/',
     profilesQuery: '?_bookings=true&_venues=true',

@@ -10,8 +10,6 @@ export function VenueBooking(booking) {
   const venue = booking.venue;
   const { name, rating, media, meta } = venue;
 
-  console.log(booking);
-
   const imageUrl = media[0] ? media[0].url : 'https://via.placeholder.com/300';
   const amenities = getAmenities(meta);
 

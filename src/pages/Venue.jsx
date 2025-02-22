@@ -12,7 +12,8 @@ export function Venue() {
     constants.holidaze.base +
     constants.holidaze.venues.clear +
     '/' +
-    id;
+    id +
+    constants.holidaze.venues.bookings;
   const { data, error, loading } = useGetAPI(venueUrl);
 
   if (data) {

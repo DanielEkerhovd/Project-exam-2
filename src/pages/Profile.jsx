@@ -20,7 +20,7 @@ export function Profile() {
     <div className="w-11/12 max-w-screen-2xl mx-auto mt-4 flex flex-col gap-10">
       {loading && <p>Loading...</p>}
       {error && <ErrorMessage />}
-      {data && <ProfileContent user={data.data} />}
+      {data && <ProfileContent user={data.data} token={token} />}
     </div>
   );
 }

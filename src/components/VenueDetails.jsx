@@ -4,14 +4,21 @@ import { Rating } from './Rating';
 import { getAmenities } from '../utils/getAmenities.mjs';
 import { HighlightButton } from './HighlightButton';
 
+import { VenueCalendar } from './Calendar';
+import { getBookings } from '../utils/getBookings.js';
+
+import { useLoginStatus } from '../hooks/loginStatus.js';
+import { NavLink } from 'react-router-dom';
+
 export function VenueDetails({ venue }) {
   const [currentImage, setCurrentImage] = useState('');
   const [fade, setFade] = useState(false);
+  const { isLoggedIn } = useLoginStatus();
+
   const images = venue.media;
-
   const location = venue.location;
-
   const ameneties = getAmenities(venue.meta);
+  const bookings = getBookings(venue.bookings);
 
   useEffect(() => {
     if (images.length > 0 && images[0].url) {
@@ -40,7 +47,7 @@ export function VenueDetails({ venue }) {
           alt=""
         />
         {images.length > 1 && (
-          <div className="grid grid-cols-2 gap-5 mt-2">
+          <div className="grid grid-cols-2 gap-2 mt-2">
             {images.map((image, index) => (
               <img
                 key={index}
@@ -61,9 +68,16 @@ export function VenueDetails({ venue }) {
           Up to {venue.maxGuests} guests
         </span>
       </div>
-      <div>
-        <HighlightButton text="Book venue" />
-      </div>
+      {isLoggedIn ? (
+        <div>
+          <HighlightButton text="Book venue" />
+        </div>
+      ) : (
+        <NavLink to="/login" className="text-white">
+          <HighlightButton text="Login to book" />
+        </NavLink>
+      )}
+
       {venue.description && venue.description.length > 0 && (
         <p className="font-light">{venue.description}</p>
       )}
@@ -87,6 +101,7 @@ export function VenueDetails({ venue }) {
           </div>
         </>
       )}
+      {isLoggedIn && <VenueCalendar bookings={bookings} venue={venue} />}
     </>
   );
 }

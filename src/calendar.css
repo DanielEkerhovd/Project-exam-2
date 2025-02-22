@@ -1,0 +1,66 @@
+/* Custom React Calendar Styling */
+.react-calendar {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  @apply font-titles;
+}
+
+.react-calendar__navigation button {
+  font-weight: bold;
+  border-radius: 4px;
+  transition: background 0.2s ease-in-out;
+}
+
+.react-calendar__navigation button:hover {
+  background: #edf2f7;
+}
+
+.react-calendar__tile {
+  padding: 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+}
+
+.react-calendar__tile--now {
+  @apply text-holidaze-highlight;
+  font-weight: bold;
+}
+
+.react-calendar__tile--active {
+  @apply bg-holidaze-highlight;
+  color: white;
+  font-weight: bold;
+}
+
+.react-calendar__tile:hover {
+  @apply bg-holidaze-highlight;
+}
+
+.react-calendar__tile--range {
+  @apply bg-holidaze-highlight !important;
+  color: white !important;
+}
+
+.react-calendar__navigation {
+  @apply flex gap-1;
+}
+
+.react-calendar__navigation__arrow {
+  @apply bg-holidaze-dark px-4 text-xl text-white;
+}
+
+.react-calendar__navigation__label {
+  @apply text-holidaze-dark;
+  font-weight: bold;
+  color: #2d3748; /* Dark gray */
+  background-color: #f7fafc; /* Light gray */
+  border-radius: 8px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.react-calendar__month-view__weekdays {
+  text-decoration: underline;
+}

@@ -129,43 +129,48 @@ export function useLogin() {
   return { loginData, loginError, loginLoading, login };
 }
 
-export function usePutAPI(endpoint, body, token) {
+export function usePutAPI() {
   const [data, setData] = useState(null);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    async function putData() {
-      try {
-        const response = await fetch(endpoint, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-            'X-Noroff-API-KEY': API_KEY,
-          },
-          body: JSON.stringify(body),
-        });
+  const putData = async (endpoint, body, token = 'auth') => {
+    setLoading(true);
+    setError(null);
 
-        if (response.ok) {
-          const json = await response.json();
-          setData(json);
-        } else {
-          setError(`Error: ${response.status} - ${response.statusText}`);
+    try {
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+
+      if (token !== 'auth') {
+        headers.Authorization = `Bearer ${token}`;
+        if (typeof API_KEY !== 'undefined') {
+          headers['X-Noroff-API-KEY'] = API_KEY;
         }
-      } catch (error) {
-        setError(`Error: ${error.message}`);
-      } finally {
-        setLoading(false);
       }
-    }
 
-    if (endpoint) {
-      putData();
-    }
-  }, [endpoint, body, token]);
+      const response = await fetch(endpoint, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(body),
+      });
 
-  return { data, error, loading };
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      }
+
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      console.error(error);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { data, error, loading, putData };
 }
 
 export function useDeleteAPI(endpoint, token) {
