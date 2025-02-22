@@ -1,6 +1,6 @@
 import { Hero } from '../components/Home/Hero';
 import { constants } from '../api/constants';
-import { VenueCard } from '../components/VenueCard';
+import { VenueCard } from '../components/venue/VenueCard';
 
 import { useGetAPI } from '../api/apiCalls';
 import { NavLink } from 'react-router-dom';

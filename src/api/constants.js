@@ -11,7 +11,7 @@ export const constants = {
       rating: '/venues?_bookings=true&_customer=true&sort=rating',
       price: '/venues?_bookings=true&_customer=true&sort=price',
       new: '/venues?_bookings=true&_customer=true&sort=created',
-      admin: '/venues',
+      clear: '/venues',
     },
     profiles: '/profiles/',
     profilesQuery: '?_bookings=true&_venues=true',

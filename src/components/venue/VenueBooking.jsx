@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
-import { getAmenities } from '../utils/getAmenities.mjs';
-import { dateFormat } from '../utils/dateFormat.js';
-import { HighlightButton } from './HighlightButton.jsx';
+import { getAmenities } from '../../utils/getAmenities.mjs';
+import { dateFormat } from '../../utils/dateFormat.js';
+import { HighlightButton } from '../HighlightButton.jsx';
 
 export function VenueBooking(booking) {
   const checkIn = dateFormat(booking.dateFrom);
@@ -29,7 +29,10 @@ export function VenueBooking(booking) {
         </div>
       </div>
       {/* Actions */}
-      <div className="p-2 flex flex-col gap-2">
+      <div
+        className="p-2 flex flex-col gap-3
+      "
+      >
         <div className="flex items-center gap-1">
           {rating === 0 ? (
             <span className="text-gray-500 text-[10px]">No ratings</span>
@@ -50,7 +53,7 @@ export function VenueBooking(booking) {
         <div className="divide-x flex items-center font-extralight text-[11px]">
           {amenities.map((amenity, index) => (
             <span className="px-1" key={index}>
-              {amenity}
+              {amenity.name}
             </span>
           ))}
         </div>
@@ -62,16 +65,10 @@ export function VenueBooking(booking) {
             <span className="">{checkOut}</span>
           </div>
         </div>
-        <div className="flex items-center justify-between">
-          <NavLink to={`/venues/${venue.id}`}>
-            <HighlightButton text="View venue" />
-          </NavLink>
-          <div>
-            <button className="bg-holidaze-dark text-white font-semibold p-2 rounded-sm">
-              Cancel booking
-            </button>
-          </div>
-        </div>
+
+        <NavLink to={`/venue/${venue.id}`}>
+          <HighlightButton text="View venue" />
+        </NavLink>
       </div>
     </div>
   );

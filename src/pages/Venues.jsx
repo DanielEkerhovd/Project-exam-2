@@ -1,7 +1,7 @@
 import { constants } from '../api/constants';
 import { useGetAPI } from '../api/apiCalls';
 
-import { VenueCard } from '../components/VenueCard';
+import { VenueCard } from '../components/venue/VenueCard';
 
 export function Venues() {
   const url =

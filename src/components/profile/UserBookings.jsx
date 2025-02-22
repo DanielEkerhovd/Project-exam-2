@@ -3,7 +3,7 @@ import { useGetAPI } from '../../api/apiCalls';
 import { constants } from '../../api/constants';
 import { getStorage } from '../../storage/localStorage';
 import { ErrorMessage } from '../ErrorMessage';
-import { VenueBooking } from '../VenueBooking';
+import { VenueBooking } from '../venue/VenueBooking';
 
 export function UserBookings({ user }) {
   const url =
