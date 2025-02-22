@@ -12,12 +12,13 @@ export function Profile() {
     constants.base +
     constants.holidaze.base +
     constants.holidaze.profiles +
-    getUser.name;
+    getUser.name +
+    constants.holidaze.profilesQuery;
 
   const { data, error, loading } = useGetAPI(profileUrl, token);
 
   return (
-    <div className="w-11/12 max-w-screen-2xl mx-auto mt-4 flex flex-col gap-10">
+    <div className="w-11/12 max-w-screen-2xl mx-auto mt-4 flex flex-col gap-10 mb-20">
       {loading && <p>Loading...</p>}
       {error && <ErrorMessage />}
       {data && <ProfileContent user={data.data} token={token} />}

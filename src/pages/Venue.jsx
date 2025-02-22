@@ -16,12 +16,8 @@ export function Venue() {
     constants.holidaze.venues.bookings;
   const { data, error, loading } = useGetAPI(venueUrl);
 
-  if (data) {
-    console.log(data.data);
-  }
-
   return (
-    <section className="w-11/12 mx-auto max-w-screen-2xl">
+    <section className="w-11/12 mx-auto max-w-screen-2xl mb-20">
       {loading && <p>Loading...</p>}
       {error && <p>Something went wrong</p>}
       {data && (

@@ -2,43 +2,60 @@ import { useState, useEffect } from 'react';
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-export function useGetAPI(endpoint, token = 'Not needed') {
+export function useGetAPI(initialEndpoint, token = 'Not needed') {
+  const [endpoint, setEndpoint] = useState(initialEndpoint);
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const headers = {
-          'X-Noroff-API-KEY': API_KEY,
-        };
+  const fetchData = async (url) => {
+    setLoading(true);
+    setError(null);
 
-        if (token !== 'Not needed') {
-          headers.Authorization = `Bearer ${token}`;
-        }
+    try {
+      const headers = {
+        'X-Noroff-API-KEY': API_KEY,
+      };
 
-        const response = await fetch(endpoint, { headers });
-
-        if (response.ok) {
-          const json = await response.json();
-          setData(json);
-        } else {
-          setError(`Error: ${response.status} - ${response.statusText}`);
-        }
-      } catch (error) {
-        setError(`Error: ${error.message}`);
-      } finally {
-        setLoading(false);
+      if (token !== 'Not needed') {
+        headers.Authorization = `Bearer ${token}`;
       }
-    }
 
+      const response = await fetch(url, { headers });
+
+      if (response.ok) {
+        const json = await response.json();
+        setData(json);
+      } else {
+        setError(`Error: ${response.status} - ${response.statusText}`);
+      }
+    } catch (error) {
+      setError(`Error: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     if (endpoint) {
-      fetchData();
+      fetchData(endpoint);
     }
-  }, [endpoint]);
+  }, [endpoint]); // Run fetchData when endpoint changes
 
-  return { data, error, loading };
+  return { data, error, loading, setEndpoint };
+}
+
+export async function searchAPI(endpoint) {
+  try {
+    const response = await fetch(endpoint);
+
+    if (response.ok) {
+      const json = await response.json();
+      return json;
+    }
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export function usePostAPI() {
@@ -69,7 +86,10 @@ export function usePostAPI() {
       });
 
       if (!response.ok) {
-        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        const errorData = await response.json();
+        throw new Error(
+          errorData.errors[0].message || 'Failed to create booking',
+        );
       }
 
       const json = await response.json();

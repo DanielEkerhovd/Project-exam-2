@@ -14,7 +14,6 @@ import { getStorage } from './storage/localStorage';
 
 function App() {
   const { isLoggedIn, setLoginStatus } = useLoginStatus();
-  console.log(isLoggedIn);
 
   useEffect(() => {
     const handleStorageChange = () => {

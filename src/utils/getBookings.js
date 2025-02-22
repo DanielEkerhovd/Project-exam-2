@@ -12,17 +12,13 @@ export function getBookings(bookings) {
     const startDate = parseISO(booking.dateFrom);
     const endDate = parseISO(booking.dateTo);
 
-    // Generate an array of all dates between startDate and endDate
     const datesInRange = eachDayOfInterval({ start: startDate, end: endDate });
 
-    // Format each date and add to the bookedDates array
     const formattedDates = datesInRange.map((date) =>
       format(date, 'yyyy-MM-dd'),
     );
     bookedDates = [...bookedDates, ...formattedDates];
   });
-
-  console.log(bookedDates); // You can remove this later.
 
   return bookedDates;
 }

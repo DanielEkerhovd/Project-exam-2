@@ -10,7 +10,7 @@ export function VenueBooking(booking) {
   const venue = booking.venue;
   const { name, rating, media, meta } = venue;
 
-  const imageUrl = media[0] ? media[0].url : 'https://via.placeholder.com/300';
+  const imageUrl = media[0] ? media[0].url : '/assets/placeholder.png';
   const amenities = getAmenities(meta);
 
   return (
@@ -18,7 +18,7 @@ export function VenueBooking(booking) {
       {/* Hero */}
       <div className="relative h-[130px]">
         <img
-          className="w-full h-full object-cover rounded-t-md"
+          className={`w-full h-full object-cover rounded-t-md ${!media[0] && 'border-8 border-white'}`}
           src={imageUrl}
           alt=""
         />

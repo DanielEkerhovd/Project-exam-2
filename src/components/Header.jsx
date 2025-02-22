@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useLoginStatus } from '../hooks/loginStatus';
+import { getStorage } from '../storage/localStorage';
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  const location = useLocation();
   const navigate = useNavigate();
+
+  const user = JSON.parse(getStorage('user'));
 
   const { isLoggedIn, setLoggedOut } = useLoginStatus();
 
@@ -18,18 +19,6 @@ export function Header() {
       setLoggedIn(false);
     }
   }, [isLoggedIn]);
-
-  useEffect(() => {
-    if (
-      location.pathname === '/login' ||
-      location.pathname === '/register' ||
-      location.pathname === '/profile'
-    ) {
-      setSearchOpen(false);
-    } else {
-      setSearchOpen(true);
-    }
-  }, [location.pathname]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -63,32 +52,14 @@ export function Header() {
         </div>
       </div>
 
-      {searchOpen && (
-        <div className="w-full md:w-auto flex gap-1 mb-[15px] md:mb-0">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-full md:w-[250px] p-2 border rounded-l-lg"
-          />
-          <button className="bg-holidaze-dark rounded-r-lg flex items-center justify-center px-3">
-            <img
-              className="size-6 object-contain"
-              src="/assets/search.png"
-              alt="Search"
-            />
-          </button>
-        </div>
-      )}
-
       {/* Navigation (hidden on small screens) */}
       <nav className="hidden md:flex items-center gap-5 ml-auto">
-        <NavLink to="/venues">Venues</NavLink>
+        <NavLink to="/venues">VENUES</NavLink>
         {loggedIn ? (
           <>
-            <button onClick={logout}>Logout</button>
             <NavLink to="/profile">
               <div className="bg-holidaze-dark size-12 rounded-full text-white flex items-center justify-center">
-                P
+                <img src={user.avatar.url} alt="User profile" />
               </div>
             </NavLink>
           </>
@@ -132,8 +103,7 @@ export function Header() {
           {loggedIn ? (
             <button
               onClick={() => {
-                setLoggedOut();
-                setMenuOpen(false);
+                logout();
               }}
             >
               Logout

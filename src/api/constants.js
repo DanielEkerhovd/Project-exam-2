@@ -8,11 +8,11 @@ export const constants = {
     base: '/holidaze',
     bookings: '/bookings?_venue=true',
     venues: {
-      rating: '/venues?_bookings=true&_customer=true&sort=rating',
+      rating: '?_bookings=true&_customer=true&sort=rating',
       price: '/venues?_bookings=true&_customer=true&sort=price',
       new: '/venues?_bookings=true&_customer=true&sort=created',
       clear: '/venues',
-      bookings: '?_bookings=true',
+      bookings: '?_bookings=true&_venues=true',
     },
     profiles: '/profiles/',
     profilesQuery: '?_bookings=true&_venues=true',

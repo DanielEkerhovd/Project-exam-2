@@ -14,7 +14,7 @@ export function Home() {
   const { data, error, loading } = useGetAPI(newVenues);
 
   return (
-    <div className="mx-auto max-w-screen-2xl w-11/12 flex flex-col gap-5">
+    <div className="mx-auto max-w-screen-2xl w-11/12 flex flex-col gap-5 mb-20">
       <Hero />
       <section className="flex flex-col gap-5 w-full items-center">
         <div className="text-xl font-medium w-full uppercase rounded-sm flex flex-col gap-1">

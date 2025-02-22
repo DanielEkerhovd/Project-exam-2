@@ -21,7 +21,6 @@ export async function loginUser(email, password) {
 
     if (data.data.accessToken) {
       setStorage('accessToken', data.data.accessToken);
-      console.log(data.data);
     }
   } catch (error) {
     console.error(error);

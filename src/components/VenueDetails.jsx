@@ -23,6 +23,8 @@ export function VenueDetails({ venue }) {
   useEffect(() => {
     if (images.length > 0 && images[0].url) {
       setCurrentImage(images[0].url);
+    } else {
+      setCurrentImage('/assets/placeholder.png');
     }
   }, [images]);
 

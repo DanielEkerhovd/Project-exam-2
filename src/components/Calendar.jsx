@@ -68,12 +68,10 @@ export function VenueCalendar({ bookings, venue }) {
 
   const checkOverlap = (startDate, endDate) => {
     return bookings.some((booking) => {
-      // Convert the booking date strings into Date objects
       const bookingStart = new Date(booking);
       const bookingEnd = new Date(booking);
-      bookingEnd.setHours(23, 59, 59, 999); // Ensure the end date includes the entire day
+      bookingEnd.setHours(23, 59, 59, 999);
 
-      // Make sure the date objects are properly compared
       return (
         (startDate >= bookingStart && startDate <= bookingEnd) ||
         (endDate >= bookingStart && endDate <= bookingEnd) ||
@@ -89,8 +87,6 @@ export function VenueCalendar({ bookings, venue }) {
       return;
     }
 
-    const check = checkOverlap(dateRange[0], dateRange[1]);
-    console.log(check);
     const guestInput = document.getElementById('guests');
     setGuestsError(false);
     if (guestInput.value > maxGuests) {

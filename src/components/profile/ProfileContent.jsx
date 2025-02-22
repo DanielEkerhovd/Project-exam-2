@@ -4,19 +4,24 @@ import { useEffect, useState } from 'react';
 import { usePutAPI } from '../../api/apiCalls';
 
 import { constants } from '../../api/constants';
+import { useNavigate } from 'react-router-dom';
+
+import { useLoginStatus } from '../../hooks/loginStatus';
 
 export function ProfileContent({ user, token }) {
   const { name, venueManager, avatar } = user;
   let { url } = avatar;
-  const customManager = false;
 
   const profileUrl = `${constants.base}${constants.holidaze.base}${constants.holidaze.profiles}${name}`;
 
   const { data, error, loading, putData } = usePutAPI();
+  const { setLoggedOut } = useLoginStatus();
 
   const [editImage, setEditImage] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [editError, setEditError] = useState(false);
+
+  const navigate = useNavigate();
 
   const save = () => {
     setEditError(false);
@@ -27,7 +32,6 @@ export function ProfileContent({ user, token }) {
     putData(profileUrl, payload, token);
 
     if (error) {
-      console.log('Error updating avatar');
       setEditError(true);
       return;
     }
@@ -35,11 +39,14 @@ export function ProfileContent({ user, token }) {
 
   useEffect(() => {
     if (data) {
-      console.log('Avatar updated');
-      console.log(data);
       setEditImage(false);
     }
   }, [data]);
+
+  const logOut = () => {
+    setLoggedOut();
+    navigate('/login');
+  };
 
   return (
     <>
@@ -51,7 +58,7 @@ export function ProfileContent({ user, token }) {
             alt="Profile image"
           />
           <button
-            onClick={() => setEditImage(true)}
+            onClick={() => setEditImage(!editImage)}
             className="size-7 absolute bottom-0 right-0 bg-holidaze-dark rounded-lg flex items-center justify-center"
           >
             <img className="size-4" src="/assets/edit.png" alt="Edit" />
@@ -62,6 +69,12 @@ export function ProfileContent({ user, token }) {
           {venueManager && <p className="font-light text-sm">Venue Manager</p>}
         </div>
       </section>
+      <button
+        className="bg-holidaze-highlight font-bold py-1 text-sm px-2 rounded w-fit -mt-8"
+        onClick={logOut}
+      >
+        Log out
+      </button>
       {editImage && (
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-1">
@@ -85,12 +98,13 @@ export function ProfileContent({ user, token }) {
           </button>
         </div>
       )}
-
-      {customManager ? (
-        <ManageVenues user={user} />
-      ) : (
-        <UserBookings user={user} />
+      {venueManager && user._count.venues < 0 && (
+        <button className="bg-holidaze-dark text-white font-bold py-2 px-4 rounded w-fit">
+          Add venue
+        </button>
       )}
+      {venueManager && <ManageVenues user={user} />}
+      <UserBookings user={user} />
     </>
   );
 }
