@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
-
 import { Rating } from './Rating';
 import { getAmenities } from '../utils/getAmenities.mjs';
-
 import { VenueCalendar } from './Calendar';
 import { getBookings } from '../utils/getBookings.js';
-
 import { useLoginStatus } from '../hooks/loginStatus.js';
+import { NavLink } from 'react-router-dom';
 
 export function VenueDetails({ venue }) {
   const [currentImage, setCurrentImage] = useState('');
@@ -62,7 +60,7 @@ export function VenueDetails({ venue }) {
           </div>
         )}
       </div>
-      <div className="flex flex-col lg:flex-row justify-between w-full mt-5 md:mt-10">
+      <div className="flex gap-5 lg:gap-0 flex-col lg:flex-row justify-between w-full mt-5 md:mt-10">
         <div className="flex flex-col gap-5 sm:gap-10">
           <div className="flex flex-col gap-2">
             <h2 className="text-2xl md:text-4xl font-semibold">{venue.name}</h2>
@@ -100,7 +98,19 @@ export function VenueDetails({ venue }) {
             </div>
           )}
         </div>
-        {isLoggedIn && <VenueCalendar bookings={bookings} venue={venue} />}
+        {isLoggedIn ? (
+          <VenueCalendar bookings={bookings} venue={venue} />
+        ) : (
+          <div className="flex flex-col gap-2">
+            <p>Want to book this venue?</p>
+            <NavLink
+              to="/login"
+              className="bg-holidaze-dark p-2 w-fit text-white rounded-sm"
+            >
+              Login
+            </NavLink>
+          </div>
+        )}
       </div>
     </div>
   );

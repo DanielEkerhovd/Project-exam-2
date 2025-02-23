@@ -57,30 +57,36 @@ export function ProfileContent({ user, token }) {
   return (
     <>
       <section className="flex items-center gap-2">
-        <div className="relative">
+        <div className="">
           <img
             className="rounded-full size-[68px] md:size-[120px]"
             src={inputValue ? inputValue : url}
             alt="Profile image"
           />
-          <button
-            onClick={() => setEditImage(!editImage)}
-            className="size-7 absolute bottom-2 left-0 bg-holidaze-dark rounded-lg flex items-center justify-center"
-          >
-            <img className="size-4" src="/assets/edit.png" alt="Edit" />
-          </button>
         </div>
         <div>
           <h1 className="text-2xl md:text-3xl font-semibold">{name}</h1>
           {venueManager && (
             <p className="font-light text-sm md:text-lg">Venue Manager</p>
           )}
-          <button
-            className="bg-holidaze-highlight font-bold py-1 text-sm px-2 rounded w-fit"
-            onClick={logOut}
-          >
-            Log out
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setEditImage(!editImage)}
+              className="size-7 bg-holidaze-dark rounded-lg flex items-center justify-center"
+            >
+              {editImage ? (
+                <span className="text-white">X</span>
+              ) : (
+                <img className="size-4" src="/assets/edit.png" alt="Edit" />
+              )}
+            </button>
+            <button
+              className="bg-holidaze-highlight font-bold py-1 text-sm px-2 rounded w-fit"
+              onClick={logOut}
+            >
+              Log out
+            </button>
+          </div>
         </div>
       </section>
       {editImage && (

@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useLoginStatus } from '../../hooks/loginStatus';
 import { getStorage } from '../../storage/localStorage';
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  const navigate = useNavigate();
 
   const user = JSON.parse(getStorage('user')) || {};
 
@@ -30,7 +29,7 @@ export function Header() {
 
   const logout = () => {
     setLoggedOut();
-    navigate('/login');
+    location.reload();
   };
 
   return (
