@@ -13,7 +13,9 @@ export function EditVenue({ setEditActive, venue }) {
     description: venue.description || '',
     price: venue.price || 1,
     maxGuests: venue.maxGuests || 1,
-    country: venue.location.country || '',
+    location: {
+      address: venue.location.address || '',
+    },
     rating: venue.rating || 5,
     meta: {
       wifi: venue.meta.wifi || false,
@@ -45,6 +47,14 @@ export function EditVenue({ setEditActive, venue }) {
       setVenueData((prevData) => ({
         ...prevData,
         media: newMedia,
+      }));
+    } else if (name === 'country') {
+      setVenueData((prevData) => ({
+        ...prevData,
+        location: {
+          ...prevData.location,
+          country: value,
+        },
       }));
     } else {
       setVenueData((prevData) => ({

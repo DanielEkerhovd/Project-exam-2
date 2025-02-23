@@ -13,7 +13,9 @@ export function AddVenue({ setCreateVenue }) {
     description: '',
     price: 1,
     maxGuests: 1,
-    country: '',
+    location: {
+      country: '',
+    },
     rating: 5,
     meta: {
       wifi: false,
@@ -45,6 +47,14 @@ export function AddVenue({ setCreateVenue }) {
       setVenueData((prevData) => ({
         ...prevData,
         media: newMedia,
+      }));
+    } else if (name === 'country') {
+      setVenueData((prevData) => ({
+        ...prevData,
+        location: {
+          ...prevData.location,
+          country: value,
+        },
       }));
     } else {
       setVenueData((prevData) => ({
@@ -185,7 +195,7 @@ export function AddVenue({ setCreateVenue }) {
                 type="text"
                 id="country"
                 name="country"
-                value={venueData.country}
+                value={venueData.location.country}
                 onChange={handleChange}
                 required
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 p-1"
