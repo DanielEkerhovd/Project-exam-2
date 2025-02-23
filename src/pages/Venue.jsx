@@ -26,16 +26,13 @@ export function Venue() {
       {error && <p>Something went wrong</p>}
       {data && (
         <div className="w-full flex flex-col gap-5 md:gap-10">
-          {console.log(data)}
           {user.name !== data.data.owner.name ? (
             <>
               <VenueDetails venue={data.data} />
-              {console.log('VenueDetails')}
             </>
           ) : (
             <>
               <VenueAdmin venue={data.data} />
-              {console.log('VenueAdmin')}
             </>
           )}
         </div>

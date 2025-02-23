@@ -87,7 +87,7 @@ export function EditVenue({ setEditActive, venue }) {
 
   useEffect(() => {
     if (data) {
-      // location.reload();
+      location.reload();
     }
   }, [data]);
 
