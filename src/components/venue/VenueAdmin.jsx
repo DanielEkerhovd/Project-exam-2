@@ -1,17 +1,33 @@
 import { useState, useEffect } from 'react';
+import { Rating } from '../Rating';
+import { getAmenities } from '../../utils/getAmenities.mjs';
+import { VenueCalendar } from '../Calendar';
+import { getBookings } from '../../utils/getBookings.js';
+import { useNavigate } from 'react-router-dom';
+import { useLoginStatus } from '../../hooks/loginStatus.js';
+import { EditVenue } from './EditVenue.jsx';
+import { useDeleteAPI } from '../../api/apiCalls.js';
+import { constants } from '../../api/constants.js';
+import { getStorage } from '../../storage/localStorage.js';
 
-import { Rating } from './Rating';
-import { getAmenities } from '../utils/getAmenities.mjs';
-
-import { VenueCalendar } from './Calendar';
-import { getBookings } from '../utils/getBookings.js';
-
-import { useLoginStatus } from '../hooks/loginStatus.js';
-
-export function VenueDetails({ venue }) {
+export function VenueAdmin({ venue }) {
   const [currentImage, setCurrentImage] = useState('');
   const [fade, setFade] = useState(false);
+  const [editActive, setEditActive] = useState(false);
+  const [deleteActive, setDeleteActive] = useState(false);
+
+  const navigate = useNavigate();
+
+  const deleteUrl =
+    constants.base +
+    constants.holidaze.base +
+    constants.holidaze.venues.clear +
+    '/' +
+    venue.id;
+  const token = JSON.parse(getStorage('user')).accessToken;
+
   const { isLoggedIn } = useLoginStatus();
+  const { data, loading, error, deleteData } = useDeleteAPI();
 
   const images = venue.media;
   const location = venue.location;
@@ -35,6 +51,16 @@ export function VenueDetails({ venue }) {
       }, 100);
     }
   };
+
+  const deleteVenue = () => {
+    deleteData(deleteUrl, token);
+  };
+
+  useEffect(() => {
+    if (data) {
+      navigate('/profile');
+    }
+  }, [data, navigate]);
 
   return (
     <div>
@@ -74,6 +100,50 @@ export function VenueDetails({ venue }) {
               Up to {venue.maxGuests} guests
             </span>
           </div>
+
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-2">
+              <button
+                onClick={() => setEditActive(!editActive)}
+                className="bg-holidaze-highlight p-2 font-medium rounded-sm"
+              >
+                {editActive ? 'Cancel edit' : 'Edit venue'}
+              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setDeleteActive(!deleteActive)}
+                  className={`bg-holidaze-alert p-2 font-medium rounded-sm ${
+                    deleteActive ? 'px-3' : ''
+                  }`}
+                >
+                  {deleteActive ? 'X' : 'Delete venue'}
+                </button>
+                {deleteActive && (
+                  <div className="flex gap-2 items-center">
+                    <button
+                      onClick={deleteVenue}
+                      className="bg-holidaze-alert p-2 font-bold rounded-sm h-full"
+                    >
+                      <img
+                        className="size-5 object-cover"
+                        src="/assets/check.png"
+                        alt="delete button"
+                      />
+                    </button>
+                    <span className="font-semibold">
+                      {!error && !loading && 'Are you sure?'}
+                      {error && 'Error deleting'}
+                      {loading && 'Deleting...'}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+            {editActive && (
+              <EditVenue setEditActive={setEditActive} venue={venue} />
+            )}
+          </div>
+
           {venue.description && venue.description.length > 0 && (
             <p className="font-light md:text-xl max-w-[600px]">
               {venue.description}

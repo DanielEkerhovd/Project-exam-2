@@ -5,6 +5,7 @@ import '../calendar.css';
 
 import { constants } from '../api/constants';
 import { usePostAPI } from '../api/apiCalls';
+import { useLoginStatus } from '../hooks/loginStatus';
 
 export function VenueCalendar({ bookings, venue }) {
   const [dateRange, setDateRange] = useState([null, null]);
@@ -16,6 +17,7 @@ export function VenueCalendar({ bookings, venue }) {
   const modalRef = useRef(null);
 
   const { data, error, postData } = usePostAPI();
+  const { isLoggedIn } = useLoginStatus();
 
   const bookingUrl = constants.base + constants.holidaze.base + '/bookings';
   const token = JSON.parse(localStorage.getItem('user')).accessToken;
@@ -116,7 +118,7 @@ export function VenueCalendar({ bookings, venue }) {
 
   useEffect(() => {
     if (data && data.data) {
-      setBookingStatus('Booking successful, Enjoy your stay!');
+      setBookingStatus('Booking successful!');
     } else if (error) {
       setBookingStatus('Booking failed, please try again');
     }
@@ -124,7 +126,7 @@ export function VenueCalendar({ bookings, venue }) {
 
   return (
     <>
-      <div className="flex flex-col items-center gap-4 bg-white p-4 rounded-lg shadow-md">
+      <div className="flex flex-col items-center gap-4 bg-white p-4 rounded-lg shadow-md max-w-[400px]">
         <h2 className="text-lg font-semibold">Select your dates</h2>
 
         <Calendar
@@ -154,53 +156,58 @@ export function VenueCalendar({ bookings, venue }) {
           prev2Label={null}
           next2Label={null}
         />
+        {isLoggedIn && (
+          <>
+            <div className="flex flex-col items-center gap-4 w-full">
+              <div className="p-2 bg-gray-100 rounded-md w-full">
+                <strong>From:</strong>{' '}
+                {dateRange[0] ? format(dateRange[0], 'dd-MM-yyyy') : ''}
+              </div>
+              <div className="p-2 bg-gray-100 rounded-md w-full">
+                <strong>To:</strong>{' '}
+                {dateRange[1] ? format(dateRange[1], 'dd-MM-yyyy') : ''}
+              </div>
+              {overlapSelected && (
+                <p className="text-red-500">
+                  Dates overlap with existing booking
+                </p>
+              )}
+            </div>
 
-        <div className="flex flex-col items-center gap-4 w-full">
-          <div className="p-2 bg-gray-100 rounded-md w-full">
-            <strong>From:</strong>{' '}
-            {dateRange[0] ? format(dateRange[0], 'dd-MM-yyyy') : ''}
-          </div>
-          <div className="p-2 bg-gray-100 rounded-md w-full">
-            <strong>To:</strong>{' '}
-            {dateRange[1] ? format(dateRange[1], 'dd-MM-yyyy') : ''}
-          </div>
-          {overlapSelected && (
-            <p className="text-red-500">Dates overlap with existing booking</p>
-          )}
-        </div>
+            <div className="flex flex-col items-center gap-2 w-full">
+              <label htmlFor="guests" className="font-semibold w-full">
+                Number of guests:
+              </label>
+              <input
+                type="number"
+                id="guests"
+                name="guests"
+                min="1"
+                max={maxGuests}
+                defaultValue="1"
+                className="p-2 border rounded-md w-full"
+              />
+              {guestsError && (
+                <p className="text-red-500 w-full">Too many guests</p>
+              )}
+            </div>
 
-        <div className="flex flex-col items-center gap-2 w-full">
-          <label htmlFor="guests" className="font-semibold w-full">
-            Number of guests:
-          </label>
-          <input
-            type="number"
-            id="guests"
-            name="guests"
-            min="1"
-            max={maxGuests}
-            defaultValue="1"
-            className="p-2 border rounded-md w-full"
-          />
-          {guestsError && (
-            <p className="text-red-500 w-full">Too many guests</p>
-          )}
-        </div>
-
-        <button
-          onClick={openModal}
-          className={`bg-holidaze-dark text-white p-2 rounded-md w-full ${dateRange[0] && dateRange[1] ? '' : 'opacity-50 cursor-not-allowed'}`}
-          disabled={!dateRange[0] || !dateRange[1]}
-        >
-          {dateRange[0] && dateRange[1] ? 'Book dates' : 'Select dates'}
-        </button>
+            <button
+              onClick={openModal}
+              className={`bg-holidaze-dark text-white p-2 rounded-md w-full ${dateRange[0] && dateRange[1] ? '' : 'opacity-50 cursor-not-allowed'}`}
+              disabled={!dateRange[0] || !dateRange[1]}
+            >
+              {dateRange[0] && dateRange[1] ? 'Book dates' : 'Select dates'}
+            </button>
+          </>
+        )}
       </div>
 
       {bookingModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
           <div
             ref={modalRef}
-            className="bg-white p-4 rounded-lg shadow-md w-11/12"
+            className="bg-white p-4 rounded-lg shadow-md w-11/12 max-w-[500px]"
           >
             <h2 className="text-lg font-semibold">Booking confirmation</h2>
             <p>Are you sure you want to book these dates?</p>
@@ -239,8 +246,9 @@ export function VenueCalendar({ bookings, venue }) {
         <div
           className={`fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center`}
         >
-          <div className="bg-white p-4 rounded-lg shadow-md">
+          <div className="bg-white p-4 rounded-lg shadow-md flex flex-col gap-5">
             <h2 className="text-lg font-semibold">{bookingStatus}</h2>
+            <p className="">Enjoy your stay at {venue.name}</p>
             <button
               onClick={() => location.reload()}
               className="bg-holidaze-highlight text-black font-semibold p-2 rounded-md"

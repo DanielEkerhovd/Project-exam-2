@@ -9,7 +9,8 @@ import { Profile } from './pages/Profile';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 
-import { Header } from './components/Header';
+import { Header } from './components/head-foot/Header';
+import { Footer } from './components/head-foot/Footer';
 import { getStorage } from './storage/localStorage';
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
           element={!isLoggedIn ? <Register /> : <Navigate to="/" />}
         />
       </Routes>
+      <Footer />
     </>
   );
 }

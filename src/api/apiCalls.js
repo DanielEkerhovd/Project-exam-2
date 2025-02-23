@@ -193,40 +193,47 @@ export function usePutAPI() {
   return { data, error, loading, putData };
 }
 
-export function useDeleteAPI(endpoint, token) {
-  const [data, setData] = useState({});
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(true);
+export function useDeleteAPI() {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    async function deleteData() {
-      try {
-        const response = await fetch(endpoint, {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'X-Noroff-API-KEY': API_KEY,
-          },
-        });
+  const deleteData = async (endpoint, token = 'auth') => {
+    setLoading(true);
+    setError(null);
 
-        if (response.ok) {
-          const json = await response.json();
-          setData(json);
-        } else {
-          setError(`Error: ${response.status} - ${response.statusText}`);
+    try {
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+
+      if (token !== 'auth') {
+        headers.Authorization = `Bearer ${token}`;
+        if (typeof API_KEY !== 'undefined') {
+          headers['X-Noroff-API-KEY'] = API_KEY;
         }
-      } catch (error) {
-        console.log(error);
-        setError(true);
-      } finally {
-        setLoading(false);
       }
-    }
 
-    if (endpoint) {
-      deleteData();
-    }
-  }, [endpoint, token]);
+      const response = await fetch(endpoint, {
+        method: 'DELETE',
+        headers,
+      });
 
-  return { data, error, loading };
+      if (response.status !== 204) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.errors[0].message || 'Failed to delete resource',
+        );
+      }
+
+      setData(true);
+    } catch (error) {
+      console.error(error);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { data, error, loading, deleteData };
 }

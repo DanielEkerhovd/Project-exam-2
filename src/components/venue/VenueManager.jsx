@@ -13,7 +13,7 @@ export function VenueManager({ venueInfo }) {
 
   return (
     <div className="bg-white rounded-md">
-      <div className="relative h-[130px]">
+      <div className="relative h-[130px] lg:h-[200px]">
         <img
           className={`w-full h-full object-cover rounded-t-md ${!media[0] && 'border-8 border-white'}`}
           src={imageUrl}
@@ -37,20 +37,21 @@ export function VenueManager({ venueInfo }) {
         <div className="flex justify-between items-center">
           <div className="flex flex-col sm:flex-row gap-2">
             <NavLink to={`/venue/${id}`}>
-              <div className="p-2 rounded-sm bg-holidaze-highlight font-bold">
+              <div className="px-1 py-2 rounded-sm text-sm bg-holidaze-highlight font-bold">
                 Manage venue
               </div>
             </NavLink>
             <button
               onClick={() => setBookings(!bookings)}
-              className="p-2 rounded-sm bg-holidaze-dark text-white font-bold"
+              className="px-1 py-2 rounded-sm bg-holidaze-dark text-sm text-white font-bold"
             >
               {bookings ? 'Hide bookings' : 'Show bookings'}
             </button>
           </div>
           <div>
-            <span className="font-medium text-lg">
-              {price} $ <span className="font-light text-base">/ night</span>
+            <span className="font-medium lg:text-lg">
+              {price} ${' '}
+              <span className="font-light text-sm lg:text-base">/night</span>
             </span>
           </div>
         </div>

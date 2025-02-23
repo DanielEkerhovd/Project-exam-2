@@ -20,13 +20,15 @@ export function Venues() {
 
   return (
     <>
-      <section className="w-11/12 max-w-screen-2xl mx-auto flex flex-col gap-5 mb-20">
-        <h1 className="text-2xl font-bold mt-5 uppercase">venues</h1>
+      <section className="w-11/12 max-w-screen-2xl mx-auto flex flex-col gap-5 mb-20 min-h-[calc(100vh-80px)]">
+        <h1 className="text-2xl md:text-4xl font-bold mt-5 uppercase">
+          venues
+        </h1>
         <div className="w-full md:w-auto flex gap-1 mb-[15px] md:mb-0">
           <input
             type="text"
             placeholder="Search..."
-            className="w-full md:w-[250px] p-2 border rounded-l-lg"
+            className="w-full md:w-[500px] p-2 border rounded-l-lg"
             onChange={handleSearchChange}
           />
           <button className="bg-holidaze-dark rounded-r-lg flex items-center justify-center px-3">

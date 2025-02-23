@@ -15,7 +15,7 @@ export function ProfileContent({ user, token }) {
   const profileUrl = `${constants.base}${constants.holidaze.base}${constants.holidaze.profiles}${name}`;
 
   const { data, error, loading, putData } = usePutAPI();
-  const { setLoggedOut } = useLoginStatus();
+  const { isLoggedIn, setLoggedOut } = useLoginStatus();
 
   const [editImage, setEditImage] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -45,38 +45,46 @@ export function ProfileContent({ user, token }) {
 
   const logOut = () => {
     setLoggedOut();
-    navigate('/login');
+    location.reload();
   };
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/login');
+    }
+  }, [isLoggedIn, navigate]);
 
   return (
     <>
       <section className="flex items-center gap-2">
         <div className="relative">
           <img
-            className="rounded-full size-[68px]"
+            className="rounded-full size-[68px] md:size-[120px]"
             src={inputValue ? inputValue : url}
             alt="Profile image"
           />
           <button
             onClick={() => setEditImage(!editImage)}
-            className="size-7 absolute bottom-0 right-0 bg-holidaze-dark rounded-lg flex items-center justify-center"
+            className="size-7 absolute bottom-2 left-0 bg-holidaze-dark rounded-lg flex items-center justify-center"
           >
             <img className="size-4" src="/assets/edit.png" alt="Edit" />
           </button>
         </div>
         <div>
-          <h1 className="text-2xl font-semibold">{name}</h1>
-          {venueManager && <p className="font-light text-sm">Venue Manager</p>}
+          <h1 className="text-2xl md:text-3xl font-semibold">{name}</h1>
+          {venueManager && (
+            <p className="font-light text-sm md:text-lg">Venue Manager</p>
+          )}
+          <button
+            className="bg-holidaze-highlight font-bold py-1 text-sm px-2 rounded w-fit"
+            onClick={logOut}
+          >
+            Log out
+          </button>
         </div>
       </section>
-      <button
-        className="bg-holidaze-highlight font-bold py-1 text-sm px-2 rounded w-fit -mt-8"
-        onClick={logOut}
-      >
-        Log out
-      </button>
       {editImage && (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 max-w-[400px]">
           <div className="flex flex-col gap-1">
             <label htmlFor="avatarImage">Update your avatar</label>
             <input

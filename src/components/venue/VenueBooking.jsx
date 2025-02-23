@@ -16,7 +16,7 @@ export function VenueBooking(booking) {
   return (
     <div className="bg-white rounded-md">
       {/* Hero */}
-      <div className="relative h-[130px]">
+      <div className="relative h-[130px] lg:h-[200px]">
         <img
           className={`w-full h-full object-cover rounded-t-md ${!media[0] && 'border-8 border-white'}`}
           src={imageUrl}

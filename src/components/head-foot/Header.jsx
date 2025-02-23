@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useLoginStatus } from '../hooks/loginStatus';
-import { getStorage } from '../storage/localStorage';
+import { useLoginStatus } from '../../hooks/loginStatus';
+import { getStorage } from '../../storage/localStorage';
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
 
-  const user = JSON.parse(getStorage('user'));
+  const user = JSON.parse(getStorage('user')) || {};
 
   const { isLoggedIn, setLoggedOut } = useLoginStatus();
 
@@ -54,12 +54,18 @@ export function Header() {
 
       {/* Navigation (hidden on small screens) */}
       <nav className="hidden md:flex items-center gap-5 ml-auto">
-        <NavLink to="/venues">VENUES</NavLink>
+        <NavLink className="font-semibold" to="/venues">
+          VENUES
+        </NavLink>
         {loggedIn ? (
           <>
             <NavLink to="/profile">
-              <div className="bg-holidaze-dark size-12 rounded-full text-white flex items-center justify-center">
-                <img src={user.avatar.url} alt="User profile" />
+              <div className="bg-holidaze-dark size-12 rounded-full flex items-center justify-center">
+                <img
+                  src={user.avatar.url}
+                  className="size-10 rounded-full"
+                  alt="User profile"
+                />
               </div>
             </NavLink>
           </>

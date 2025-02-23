@@ -17,23 +17,23 @@ export function UserBookings({ user }) {
 
   return (
     <div className="flex flex-col gap-5">
-      <h2 className="font-semibold text-xl">Your bookings</h2>
+      <h2 className="font-semibold text-xl md:text-3xl">Your bookings</h2>
       {loading && <p>Loading...</p>}
       {error && <ErrorMessage />}
       {data &&
-        (data.data ? (
-          <div className="flex flex-col gap-5">
-            <ul className="flex flex-col gap-5">
+        (data.data && data.data.length > 0 ? (
+          <>
+            <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
               {data.data.map((booking) => (
                 <VenueBooking key={booking.id} {...booking} />
               ))}
             </ul>
-          </div>
+          </>
         ) : (
           <div className="flex flex-col gap-2">
             <p>You have no bookings</p>
             <NavLink
-              to="/bookings"
+              to="/venues"
               className="bg-holidaze-dark text-white font-bold py-2 px-4 rounded w-fit"
             >
               Book now

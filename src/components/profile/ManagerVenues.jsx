@@ -7,7 +7,7 @@ export function ManageVenues({ user }) {
   const venues = user.venues;
   return (
     <div className="flex flex-col gap-5">
-      <h2 className="font-semibold text-xl">Manage venues</h2>
+      <h2 className="font-semibold text-xl md:text-3xl">Manage venues</h2>
       <button
         onClick={() => setCreateVenue(!createVenue)}
         className="bg-holidaze-dark text-white font-bold py-2 px-4 rounded w-fit"
@@ -16,7 +16,7 @@ export function ManageVenues({ user }) {
       </button>
       {createVenue && <AddVenue setCreateVenue={setCreateVenue} />}
       {venues.length !== 0 && (
-        <div className="flex flex-col gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
           {venues.map((venue) => (
             <div key={venue.id}>
               <VenueManager venueInfo={venue} />
