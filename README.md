@@ -58,7 +58,7 @@ To start the development server:
 npm run dev
 ```
 
-Then, open [http://localhost:5173](http://localhost:1000) in your browser.
+Then, open [http://localhost:1000](http://localhost:1000) in your browser.
 
 ### Build for Production
 
