@@ -13,7 +13,7 @@ export function EditVenue({ setEditActive, venue }) {
     description: venue.description || '',
     price: venue.price || 1,
     maxGuests: venue.maxGuests || 1,
-    country: venue.country || '',
+    country: venue.location.country || '',
     rating: venue.rating || 5,
     meta: {
       wifi: venue.meta.wifi || false,
@@ -27,8 +27,6 @@ export function EditVenue({ setEditActive, venue }) {
   const [searching, setSearching] = useState(false);
 
   const { data, error, loading, putData } = usePutAPI();
-
-  console.log(venue.media);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -89,12 +87,12 @@ export function EditVenue({ setEditActive, venue }) {
 
   useEffect(() => {
     if (data) {
-      location.reload();
+      // location.reload();
     }
   }, [data]);
 
   return (
-    <div className="w-full max-w-lg bg-white p-6 rounded-lg shadow-md relative">
+    <div className="w-full max-w-[500px] bg-white p-6 rounded-lg shadow-md relative">
       <button
         onClick={() => setEditActive(false)}
         className="absolute top-2 right-2 text-white size-7 text-xs bg-holidaze-dark rounded-lg"

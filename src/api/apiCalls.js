@@ -158,6 +158,7 @@ export function usePutAPI() {
     setLoading(true);
     setError(null);
 
+    console.log(body), console.log(API_KEY), console.log(token);
     try {
       const headers = {
         'Content-Type': 'application/json',
@@ -181,9 +182,6 @@ export function usePutAPI() {
       }
 
       const json = await response.json();
-      console.log(body);
-      console.log(API_KEY);
-      console.log(token);
       setData(json);
     } catch (error) {
       console.error(error);
