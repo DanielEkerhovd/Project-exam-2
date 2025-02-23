@@ -8,7 +8,7 @@ import { getStorage } from '../storage/localStorage';
 
 export function Venue() {
   const { id } = useParams();
-  const user = JSON.parse(getStorage('user'));
+  const user = JSON.parse(getStorage('user')) || { name: '' };
 
   const venueUrl =
     constants.base +
