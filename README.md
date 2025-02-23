@@ -77,8 +77,3 @@ npm run preview
 ## Contributing
 
 If you'd like to contribute, please fork the repository and use a feature branch. Pull requests are welcome.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
