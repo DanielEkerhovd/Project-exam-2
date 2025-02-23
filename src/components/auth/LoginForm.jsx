@@ -42,7 +42,7 @@ export function LoginForm() {
       return;
     }
     if (!validateEmail(formData.email) && formData.email) {
-      setActiveError(['Email must be a valid noroff email']);
+      setActiveError(['Email must be a valid @stud.noroff.no email']);
       return;
     }
     if (!formData.password) {

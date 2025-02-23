@@ -62,7 +62,7 @@ export function VenueDetails({ venue }) {
           </div>
         )}
       </div>
-      <div className="flex justify-between w-full mt-5 md:mt-10">
+      <div className="flex flex-col lg:flex-row justify-between w-full mt-5 md:mt-10">
         <div className="flex flex-col gap-5 sm:gap-10">
           <div className="flex flex-col gap-2">
             <h2 className="text-2xl md:text-4xl font-semibold">{venue.name}</h2>
