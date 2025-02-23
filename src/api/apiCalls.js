@@ -158,7 +158,7 @@ export function usePutAPI() {
     setLoading(true);
     setError(null);
 
-    console.log(body), console.log(API_KEY), console.log(token);
+    console.log(body), console.log(token);
     try {
       const headers = {
         'Content-Type': 'application/json',
