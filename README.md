@@ -38,7 +38,7 @@ Ensure you have the following installed:
 ### Clone the Repository
 
 ```sh
-git clone [https://github.com/your-username/your-repo.git](https://github.com/DanielEkerhovd/Project-exam-2.git)
+git clone https://github.com/DanielEkerhovd/Project-exam-2.git
 cd your-repo
 ```
 
