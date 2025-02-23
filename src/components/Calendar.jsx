@@ -248,7 +248,9 @@ export function VenueCalendar({ bookings, venue }) {
         >
           <div className="bg-white p-4 rounded-lg shadow-md flex flex-col gap-5">
             <h2 className="text-lg font-semibold">{bookingStatus}</h2>
-            <p className="">Enjoy your stay at {venue.name}</p>
+            {bookingStatus === 'Booking successful!' && (
+              <p className="">Enjoy your stay at {venue.name}</p>
+            )}
             <button
               onClick={() => location.reload()}
               className="bg-holidaze-highlight text-black font-semibold p-2 rounded-md"
